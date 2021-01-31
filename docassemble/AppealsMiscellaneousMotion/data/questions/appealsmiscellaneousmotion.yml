@@ -29,9 +29,13 @@ code: |
   users[0].mobile_number
   user_needs_interpreter
   
-  user_ask_role
-  users.there_is_another
-  other_parties.there_are_any
+  plaintiffs
+  defendants
+  
+  # to avoid triggering affidavit questions
+  user_role = DAEmpty
+  users.there_is_another = False
+  other_parties.there_are_any = False
   
   trial_court
   trial_court_docket_number
@@ -40,15 +44,16 @@ code: |
     appeals_court_docket_number
   else:
     explain_need_affidavit
+    
+  motion_title
+  relief_sought
+  basis_for_relief
+  
   # WARNING: file size error is not currently translatable
   file_size_vars
   if has_evidence:
     review_exhibits
     ocr_task
-    
-  motion_title
-  relief_sought
-  basis_for_relief
   
   method_of_service
   parties_to_be_served
@@ -66,48 +71,37 @@ code: |
   users[0].signature
   download
 ---
-question: |
-  Did you start this case, or are you responding to a case
-  that someone else started?
-fields: 
-  - no label: user_ask_role
-    datatype: radio
-    choices:
-      - Started this case: plaintiff
-      - Responding to a case: defendant
-  - note: |
-      Okay, you are the **Plaintiff** in this case. The other 
-      side is the **Defendant**.
-    show if:
-      variable: user_ask_role
-      is: "plaintiff"
-  - note: |
-      Okay, you are the **Defendant** in this case. The other 
-      side is the **Plaintiff**.
-    show if:
-      variable: user_ask_role
-      is: "defendant"
-help:
-  label: |
-    How do I know?
-  content: |
-    If you are the first person to file a form in the case, you 
-    started the case. You are the "Plaintiff."
-    
-    If you are responding to a case or court papers someone else filed, you
-    are the "Defendant."
----
+need: prepped_exhibits
 code: |
-  if user_role == 'plaintiff':
-    plaintiffs = users
-    defendants = other_parties
-  elif user_role == 'defendant':
-    defendants = users
-    plaintiffs = other_parties
+  ocr_task = background_action('process_exhibits')
+---
+id: plaintiff
+question: |
+  Who is the **plaintiff** in your Trial Court case? 
+subquestion: |
+  If you are a plaintiff, be sure to include yourself.
+  
+  If there is more than one plaintiff, you may enter more than one name.
+fields:
+  - Plaintiff(s): plaintiffs
+    input type: area 
+    rows: 6
+--- 
+id: defendant
+question: |
+  Who is the **defendant** in your Trial Court case?
+subquestion: |
+  If you are a defendant, please be sure to include yourself.
+  
+  If there is more than one defendant, you may enter more than one name.
+fields:
+  - Defendant(s): defendants
+    input type: area 
+    rows: 6
 ---
 id: court division 
 question: | 
-  Please enter the trial court department and division in which your case was heard.
+  Enter the trial court department and division in which your case was heard.
 fields:
   - no label: trial_court
     datatype: object
@@ -215,7 +209,7 @@ fields:
 ---
 id: service date
 question: |
-  Please select the date on which you have made or will make service.
+  Select the date on which you have made or will make service.
 fields:
   - Date: service_date
     datatype: date  
@@ -235,7 +229,7 @@ continue button field: preview_screen
 question: |
   Nearly finished
 subquestion: |
-  You are almost done! Please click on the form below. It will open in a new window so you can review it and make sure it is correct.
+  You are almost done! Click on the form below. It will open in a new window so you can review it and make sure it is correct.
   
   Do not forget to come back to this page to click to the final step of signing and sending the form to the court. 
   
@@ -316,7 +310,7 @@ code: |
 event: waiting_screen
 reload: True
 question: |
-  <i class="fas fa-cog fa-spin"></i> Please wait while we process your documents . . . <i class="fas fa-cog fa-spin"></i>
+  <i class="fas fa-cog fa-spin"></i> Wait while we process your documents . . . <i class="fas fa-cog fa-spin"></i>
 ---
 objects:
   - motion_attachment: DADict
@@ -364,7 +358,7 @@ fields:
       "image/*, image/png,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,.pdf"
 validation code: |
   if has_evidence and sum(exhibit.size_in_bytes() for exhibit in exhibits) > (15 * 1024 * 1024):
-    validation_error("Please upload a file smaller than 15 MB.")
+    validation_error("Upload a file smaller than 15 MB.")
 ---
 table: exhibits.table
 rows: exhibits
