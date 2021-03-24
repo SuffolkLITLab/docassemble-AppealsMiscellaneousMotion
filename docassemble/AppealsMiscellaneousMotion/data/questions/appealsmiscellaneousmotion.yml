@@ -121,7 +121,7 @@ fields:
 --- 
 id: appeals court docket number 
 question: |
-  Is this Motion to Stay the first document you are filing in the **Appeals Court**?
+  Is this the first document you are filing in the **Appeals Court**?
 fields:
   - no label: is_first_document
     datatype: yesnoradio
@@ -134,8 +134,7 @@ id: explain_need_affidavit
 question: |
   You may qualify for a fee waiver.
 subquestion: |
-  There is a filing fee to file a Motion to Stay, but you may qualify 
-  to get the fees waived.
+  There is a filing fee, but you may qualify to get the fees         waived.
   
   We will ask you questions to help you find out a little later.
 continue button field: explain_need_affidavit
@@ -146,8 +145,7 @@ question: |
   Fee waiver questions
 subquestion: |
   The next questions will be used to find out if you
-  qualify for a fee waiver. The fee to file a Motion to Stay
-  is $315.00.
+  qualify for a fee waiver. The filing fee is $315.00.
 ---
 code: |
   max_mb_per_file = 15
@@ -159,7 +157,16 @@ question: |
 subquestion: |  
   The title should indicate the type of relief you are seeking in your motion.
 fields:
-  - Name: motion_title
+  - no label: motion_title
+    input type: radio
+    choices:
+      - Motion for leave to file supplemental appendix: Motion for leave to file supplemental appendix
+      - Motion for leave to file sur-reply brief: Motion for leave to file sur-reply brief
+      - Motion to compel assembly of the record: Motion to compel assembly of the record
+      - Other: Other
+  - Other: other_motion_title
+    js show if: |
+      val("motion_title") == "Other"
 ---
 id: relief sought
 question: |
@@ -326,29 +333,10 @@ objects:
 ---
 id: record appendix
 question: |
-  You are required to submit copies of relevant Housing Court documents. 
-subquestion: |  
-  Examples include: 
-  
-    * the Housing Court's docket 
-    
-    * the complaint
-    
-    * your answer
-    
-    * the judgment
-    
-    * filings related to your motion to stay in the Housing Court.
-    
-  If you entered into an agreement for judgment, include a copy of the agreement for judgment.
+  You may submit copies of relevant Trial Court documents. 
 fields:
-  - Do you have any documents to share with the judge?: has_evidence
+  - Do you have any documents that you would like to attach to your motion?: has_evidence
     datatype: yesnoradio
-  - I state that filing a complete record appendix is impracticable.: no_record_statement
-    datatype: yesno
-    show if: 
-      variable: has_evidence      
-      is: False
   - Tap "browse" and choose all of the documents you want to upload at once. You can edit or add additional documents on the next screen.: exhibits
     datatype: files
     show if: has_evidence
