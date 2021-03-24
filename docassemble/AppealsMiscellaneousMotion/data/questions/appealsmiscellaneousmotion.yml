@@ -1,11 +1,48 @@
 ---
 include:
-  - docassemble.MAVirtualCourt:basic-questions.yml
+  - docassemble.AssemblyLine:al_package.yml
+  - docassemble.MassAccess:massaccess.yml
   - docassemble.AffidavitofIndigencyMAVC:affidavit_body.yml
   - docassemble.MassAppealsCourt:appeals-basic-questions.yml
 ---
+reconsider: True
+code: |
+  form_to_file_no_cover = al_court_bundle.as_pdf(key = "final")
+---
+reconsider: True
+code: |
+  form_to_sign = al_court_bundle.as_pdf(key = "preview")
+---
 metadata:
   title: Miscellaneous Motion
+---
+comment: |
+  This section is used by AssemblyLine to control how some of the questions work.
+mandatory: True
+code: |
+  interview_metadata # make sure we initialize the object
+  if not defined("interview_metadata['Miscellaneous_Motion']"):
+    interview_metadata.initializeObject('Miscellaneous_Motion')
+  interview_metadata['Miscellaneous_Motion'].update({
+    'title': 'Motion To Stay General',
+    'short title': 'Miscellaneous Motion',
+    'description': 'Miscellaneous Motion',
+    'original_form': '',
+    'allowed courts': [
+      "Boston Municipal Court",
+      "District Court",
+      "Superior Court",
+      "Housing Court",
+      "Probate and Family Court",
+      "Juvenile Court",
+      "Land Court"
+    ],
+    'categories': [
+    ],
+    'logic block variable': 'Miscellaneous_Motion',
+    'attachment block variable': 'al_court_bundle',
+    'typical role': 'unknown',
+  })
 ---
 features:
   javascript:
@@ -18,7 +55,7 @@ code: |
   interview_short_title = "Appeals Court Miscellaneous Motion"
 ---
 objects:
-  - prepped_exhibits: DAFile.using(filename='exhibits.pdf')
+  - prepping_exhibits: DAFile.using(filename='exhibits.pdf')
 ---
 id: interview order
 mandatory: True
@@ -28,14 +65,21 @@ code: |
   users[0].address.address
   users[0].mobile_number
   user_needs_interpreter
-  
-  plaintiffs
-  defendants
-  
-  # to avoid triggering affidavit questions
-  user_role = DAEmpty
   users.there_is_another = False
-  other_parties.there_are_any = False
+  users.gathered = True
+  user_ask_role
+  other_parties.there_are_any = True
+  plaintiffs.gather()
+  defendants.gather()
+  other_parties.gather()
+  
+  #plaintiffs
+  #defendants
+  #
+  ## to avoid triggering affidavit questions
+  #user_role = DAEmpty
+  #users.there_is_another = False
+  #other_parties.there_are_any = False
   
   trial_court
   trial_court_docket_number
@@ -71,37 +115,29 @@ code: |
   users[0].signature
   download
 ---
-need: prepped_exhibits
+code: |
+  max_mb_per_file = 15
+  file_size_vars = True
+---
+need: prepping_exhibits
 code: |
   ocr_task = background_action('process_exhibits')
 ---
-id: plaintiff
-question: |
-  Who is the **plaintiff** in your Trial Court case? 
-subquestion: |
-  If you are a plaintiff, be sure to include yourself.
-  
-  If there is more than one plaintiff, you may enter more than one name.
-fields:
-  - Plaintiff(s): plaintiffs
-    input type: area 
-    rows: 6
---- 
-id: defendant
-question: |
-  Who is the **defendant** in your Trial Court case?
-subquestion: |
-  If you are a defendant, please be sure to include yourself.
-  
-  If there is more than one defendant, you may enter more than one name.
-fields:
-  - Defendant(s): defendants
-    input type: area 
-    rows: 6
+event: process_exhibits
+code: |
+  prepping_exhibits.initialize(filename="exhibits.pdf")
+  prepping_exhibits.make_ocr_pdf(exhibits, psm=1)
+  prepping_exhibits.bates_number(prefix='EX-')
+  background_response_action('save_results',results=prepping_exhibits)
 ---
-id: court division 
+event: save_results
+code: |
+  prepped_exhibits = action_argument('results')
+  background_response()
+---
+id: trial court division 
 question: | 
-  Enter the trial court department and division in which your case was heard.
+  Select the **Trial Court** department and division where your case was heard.
 fields:
   - no label: trial_court
     datatype: object
@@ -134,7 +170,7 @@ id: explain_need_affidavit
 question: |
   You may qualify for a fee waiver.
 subquestion: |
-  There is a filing fee, but you may qualify to get the fees         waived.
+  There is a filing fee, but you may qualify to get the fees waived.
   
   We will ask you questions to help you find out a little later.
 continue button field: explain_need_affidavit
@@ -153,16 +189,16 @@ code: |
 ---
 id: motion title
 question: |
-  Provide the title for your motion.
+  What is the title of your Motion?
 subquestion: |  
-  The title should indicate the type of relief you are seeking in your motion.
+  The title should indicate the type of relief you are seeking in your Motion.
 fields:
   - no label: motion_title
     input type: radio
     choices:
-      - Motion for leave to file supplemental appendix: Motion for leave to file supplemental appendix
-      - Motion for leave to file sur-reply brief: Motion for leave to file sur-reply brief
-      - Motion to compel assembly of the record: Motion to compel assembly of the record
+      - Motion for leave to file supplemental appendix: FOR LEAVE TO FILE SUPPLEMETAL APPENDIX
+      - Motion for leave to file sur-reply brief: FOR LEAVE TO FILE SUR-REPLY BRIEF
+      - Motion to compel assembly of the record: TO COMPEL ASSEMBLY OF THE RECORD
       - Other: Other
   - Other: other_motion_title
     js show if: |
@@ -170,9 +206,9 @@ fields:
 ---
 id: relief sought
 question: |
-  Provide a detailed description of the relief you are seeking.
+  What relief are you seeking?
 subquestion: |
-  Be as specific as possible.
+  Provide a detailed description and be as specific as possible.
 fields:
   - no label: relief_sought
     input type: area
@@ -180,9 +216,9 @@ fields:
 ---
 id: basis for relief 
 question: |
-  Describe in detail the basis for your requested relief, including citation to any relevant statutes or rules.  
+  What is the basis for the relief you are requesting?
 subquestion: |
-  Be as specific as possible.
+  Provide a detailed description and be as specific as possible, including citation to any relevant statutes or rules.  
 fields:
   - no label: basis_for_relief 
     input type: area
@@ -190,11 +226,11 @@ fields:
 ---
 id: method of service
 question: |
-  How will you deliver the required copies of the motion, memorandum, and supporting materials to the plaintiffs' attorney(s)?
+  How will you deliver the required copies of the motion, memorandum, and supporting materials to ${ other_parties }'s attorney(s)?
 subquestion: |
-  You are required to provide a copy of this motion, memorandum, and supporting materials to the plaintiffs' attorney(s).
+  You are required to provide a copy of this motion, memorandum, and supporting materials to ${ other_parties }'s attorney(s).
   
-  If the plaintiff does not have an attorney, you are required to serve a copy on the self-represented plaintiff.  
+  If ${ other_parties }'s does not have an attorney, you are required to serve ${ other_parties } with a copy.  
   
   You should **not** provide a copy of your Affidavit of Indigency, if any, to anyone except the Appeals Court.  
 field: method_of_service
@@ -206,7 +242,7 @@ dropdown:
 ---
 id: parties to be served
 question: |
-  List the name and address (or email address) of each attorney or self-represented party that you will deliver copies of your motion, memorandum, and supporting materials to.
+  List the name and address (or email address) of each attorney or self-represented party that you will deliver copies of your Motion, memorandum, and supporting materials to.
 subquestion: |
   If you are serving more than one attorney or party, you may list more than one.
 fields:
@@ -216,10 +252,13 @@ fields:
 ---
 id: service date
 question: |
-  Select the date on which you have made or will make service.
+  When will you deliver copies of your Motion, memorandum, and supporting materials to ${ other_parties }'s attorney(s)?
+subquestion: |
+  You are required to provide a copy of this motion, memorandum, and supporting materials to ${ other_parties }'s attorney(s).
 fields:
   - Date: service_date
-    datatype: date  
+    datatype: date
+    min: ${ today() }
 ---
 code: |
   if is_first_document and is_indigent:
@@ -255,64 +294,64 @@ question: |
   % endif
 subquestion: |
   % if not defined('email_success') or not email_success:
-  Thank you ${users[0]}. Your form is ready to send to the court. **It is not
-  delivered until you complete the delivery process below.**
+  [:file-download: Your Motion]( ${ al_court_bundle.as_pdf(key='final').url_for() }) is ready to send to the ${ courts[0] }. It is not delivered until you complete the delivery process.
   
-  1. Click the preview image below to open the form in a new window.
-  2. Download and save or print a copy of this form for your 
-  records.
-  3. Click "Submit to ${courts[0]}" to send it to the court. 
-  4. You will have a chance to add instructions to the clerk and see the cover page before final delivery.
+  **To deliver your Motion to the ${ courts[0] }:**
+  
+  1. Click "View" below to open the form in a new window.
+  1. Click "Download" below to save or print a copy for your records.
+  1. Click "Submit to ${courts[0]}" to send your Motion to the ${courts[0]}. 
+  
+  You will have a chance to add instructions to the clerk and see the cover page before final delivery.
   
   % else:
-  If you do not hear from the court in 1 business day, call the   Appeals Court Clerk's Office: 617-921-4443 
+  If you do not hear from the court in 1 business day, call the   
+  Appeals Court Clerk's Office: 617-921-4443 
   
   The Appeals Court Clerk's Office is open:  
   Monday - Friday  
   8:30am - 4:30pm
-  % endif
   
-  ${ form_to_file_no_cover }  
+  % endif
   
   % if not defined('email_success') or not email_success:
     ${ action_button_html( url_action('form_delivery_complete'), id_tag="submitToCourt", label="Submit to " + str(courts[0].name), icon=send_icon, size="md", color="primary")}
     
-  Or download/email below:
   % else:
     Your email has already been delivered to ${courts[0]}
+    
+  [:file-download: Your Motion](${final_form_to_file.url_for(attachment=True)})
 
-  % for file in final_form_to_file:
-  % if hasattr(file, 'info'):
-  * [:file-download: ${ file.info.get("filename") }](${file.url_for()})
-  % elif hasattr(file, 'file_info'):
-  * [:file-download: ${ file.file_info.get("filename") }](${file.url_for()})
-  % else:
-  * [:file-download: ${ str(file) }](${file.url_for()})
   % endif
-  % endfor 
-  % endif
+  
+  ${ al_user_bundle.download_list_html() }
+  
+  ${ al_user_bundle.send_button_html() }
+  
 progress: 100
 section: download
-attachment code: motion_attachment["final"]
 ---
 code: |
   if has_evidence:
     if not ocr_task.ready():
       waiting_screen
     if not prepped_exhibits.ok:
-      try:
-        combined_motion_temp = pdf_concatenate(motion_attachment['final'], exhibits, filename="miscellaneous_motion.pdf")
-      except:
-        combined_motion_temp = motion_attachment['final']
+      exhibits_attachment.enabled = False
     else:      
       prepped_exhibits.set_attributes(private=False)
       if prepped_exhibits.size_in_bytes() < 10 * 1024 * 1024:
-        combined_motion_temp = pdf_concatenate(motion_attachment["final"], prepped_exhibits, filename="miscellaneous_motion.pdf")
+        exhibits_attachment.enabled = True
       else:
-        combined_motion_temp = [motion_attachment["final"]]
+        exhibits_attachment.enabled = False
   else:
-    combined_motion_temp = [motion_attachment["final"]]
-  combined_motion = pdf_concatenate(combined_motion_temp, filename="miscellaneous_motion.pdf")
+    exhibits_attachment.enabled = False
+---
+code: |
+  affidavitofindigency_included.enabled = is_first_document and is_indigent
+---
+#TODO:
+code: |
+  combined_motion = al_court_bundle.as_pdf(key='final')
 ---
 event: waiting_screen
 reload: True
@@ -322,10 +361,25 @@ question: |
 objects:
   - motion_attachment: DADict
 ---
+objects:
+  - al_user_bundle: ALDocumentBundle.using(elements=[motion_attachment, exhibits_attachment, affidavitofindigency_included], filename="Miscellaneous_Motion", title="Miscellaneous Motion")
+  - al_court_bundle: ALDocumentBundle.using(elements=[motion_attachment, exhibits_attachment, affidavitofindigency_included], filename="Miscellaneous_Motion", title="Miscellaneous Motion")
+---
+objects:
+  - motion_attachment: ALDocument.using(title='Miscellaneous Motion', filename='Miscellaneous_Motion', has_addendum=False, enabled=True)
+  - exhibits_attachment: ALDocument.using(title='Exhibits', filename='exhibits', has_addendum=False)
+  - affidavitofindigency_included: ALDocument.using(title='Affidavit of Indigency', filename='Affidavit_of_Indigency', has_addendum=False)
+---
+code: |
+  exhibits_attachment[i] = prepped_exhibits
+---
+code: |
+  affidavitofindigency_included[i] = affidavitofindigency_attachment
+---
 attachment:
   - name: Miscellaneous Motion
     variable name: motion_attachment[i]
-    filename: miscellaneous_motion
+    filename: Miscellaneous_Motion
     docx template file: miscellaneous_motion.docx
 ---
 objects:
@@ -335,7 +389,7 @@ id: record appendix
 question: |
   You may submit copies of relevant Trial Court documents. 
 fields:
-  - Do you have any documents that you would like to attach to your motion?: has_evidence
+  - Do you have any documents that you would like to attach to your Motion?: has_evidence
     datatype: yesnoradio
   - Tap "browse" and choose all of the documents you want to upload at once. You can edit or add additional documents on the next screen.: exhibits
     datatype: files
