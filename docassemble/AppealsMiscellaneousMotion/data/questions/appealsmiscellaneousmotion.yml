@@ -113,7 +113,10 @@ code: |
   
   basic_questions_signature_flow
   users[0].signature
-  download
+  if is_indigent:
+    download
+  else: 
+    not_indigent_download
 ---
 code: |
   max_mb_per_file = 15
@@ -282,6 +285,28 @@ subquestion: |
    ${ form_to_sign }
 
 progress: 95
+---
+id: download form not indigent
+event: not_indigent_download
+question: |
+  Review & Download
+subquestion: |
+  [:file-download: Your Motion]( ${ al_court_bundle.as_pdf(key='final').url_for() }) is ready to download. You must download it, send to the ${ courts[0] }, and pay the filing fee. 
+  
+  1. Click "View" below to open the form in a new window.
+  1. Click "Download" below to save a copy to send to the ${ courts[0] }.
+  
+  For help, call the Appeals Court Clerk's Office: 617-921-4443 
+  
+  The Appeals Court Clerk's Office is open:  
+  Monday - Friday  
+  8:30am - 4:30pm
+  
+  ${ al_user_bundle.download_list_html() }
+  
+  ${ al_user_bundle.send_button_html() }
+  
+progress: 100
 ---
 id: download form
 event: download
