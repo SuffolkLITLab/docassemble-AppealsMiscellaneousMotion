@@ -138,6 +138,91 @@ code: |
   prepped_exhibits = action_argument('results')
   background_response()
 ---
+objects:
+  - attorneys: ALPeopleList.using(there_are_any=True)
+  - users[i].attorney: ALIndividual
+  - other_parties[i].attorney: ALIndividual
+---
+id: users attorney trigger
+question: |
+  Do you have an attorney?
+yesno: user_has_attorney
+---
+id: users attorney name
+sets:
+  - users[i].attorney.name.first
+  - users[i].attorney.name.last
+generic object: ALIndividual
+question: |
+  What is your attorney's name?
+fields:
+  - code: |
+      users[i].attorney.name_fields()
+---
+id: users attorney address
+generic object: ALIndividual
+sets:
+  - users[i].attorney.address.address
+  - users[i].attorney.address.city
+  - users[i].attorney.address.zip
+question: |
+  What is your attorney's address?
+fields:
+---
+id: users attorney info
+generic object: ALIndividual
+question: |
+  Your attorney's information
+fields:
+  - "Law firm name": users[i].attorney.law_firm_name
+  
+  - "Law firm address": users[i].attorney.law_firm_address
+
+  - "Telephone number": users[i].attorney.attorney_telephone
+
+  - "Fax number": users[i].attorney.attorney_fax
+---
+id: defendants attorney trigger
+question: |
+  Does ${ defendants } have an attorney?
+yesno: defendant_has_attorney
+---
+id: defendants attorney name
+sets:
+  - other_parties[i].attorney.name.first
+  - other_parties[i].attorney.name.last
+generic object: ALIndividual
+question: |
+  What is ${ defendants }'s attorney's name?
+fields:
+  - code: |
+      defendants[i].attorney.name_fields()
+---
+id: defendants attorney address
+generic object: ALIndividual
+sets:
+  - other_parties[i].attorney.address.address
+  - other_parties[i].attorney.address.city
+  - other_parties[i].attorney.address.zip
+question: |
+  What is ${ defendants }'s attorney's address?
+fields:
+
+---
+id: defendants attorney info
+generic object: ALIndividual
+question: |
+  ${ defendants }'s attorney's information
+fields:
+  - "Law firm name": other_parties[i].attorney.law_firm_name
+  
+  - "Law firm address": other_parties[i].attorney.law_firm_address
+
+  - "Telephone number": other_parties[i].attorney.attorney_telephone
+
+  - "Fax number": other_parties[i].attorney.attorney_fax
+
+---
 id: trial court division 
 question: | 
   Select the **Trial Court** department and division where your case was heard.
