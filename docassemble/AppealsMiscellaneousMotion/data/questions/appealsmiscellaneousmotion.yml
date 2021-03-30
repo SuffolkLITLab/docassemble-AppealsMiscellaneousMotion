@@ -105,7 +105,7 @@ code: |
     ocr_task
   
   method_of_service
-  parties_to_be_served
+  #parties_to_be_served
   service_date
   
   if is_first_document:
@@ -236,21 +236,21 @@ id: method of service
 question: |
   % if other_party_has_attorney: 
   
-  How will you deliver the required copies of the motion, memorandum, and supporting materials to ${ other_parties[0].attorney }?
+  **How** will you deliver the required copies of the motion, memorandum, and supporting materials to **${ other_parties[0].attorney }**?
   
   % else:
   
-  How will you deliver the required copies of the motion, memorandum, and supporting materials to ${ other_parties }?
+  **How** will you deliver the required copies of the motion, memorandum, and supporting materials to **${ other_parties }**?
   
   % endif
 subquestion: |
   % if other_party_has_attorney: 
   
-  You are required to provide a copy of this motion, memorandum, and supporting materials to ${ other_parties[0].attorney }.
+  You are required to provide a copy of this motion, memorandum, and supporting materials to **${ other_parties[0].attorney }**.
   
   % else:
   
-  Since ${ other_parties }'s does not have an attorney, you are required to serve ${ other_parties } with a copy of this motion, memorandum, and supporting materials.  
+  Since **${ other_parties }'s** does not have an attorney, you are required to serve **${ other_parties }** with a copy of this motion, memorandum, and supporting materials.  
   
   % endif
   
@@ -268,7 +268,7 @@ objects:
 ---
 id: other parties attorney trigger
 question: |
-  Does ${ other_parties } have an attorney?
+  Does **${ other_parties }** have an attorney?
 yesno: other_party_has_attorney
 ---
 id: other parties attorney name
@@ -277,7 +277,7 @@ sets:
   - other_parties[i].attorney.name.last
 generic object: ALIndividual
 question: |
-  What is ${ other_parties }'s attorney's name?
+  What is **${ other_parties }'s** attorney's name?
 fields:
   - code: |
       other_parties[i].attorney.name_fields()
@@ -289,7 +289,7 @@ sets:
   - other_parties[i].attorney.address.city
   - other_parties[i].attorney.address.zip
 question: |
-  What is ${ other_parties }'s attorney's address?
+  What is **${ other_parties }'s** attorney's address?
 fields:
   - code: |
       other_parties[i].attorney.address_fields()
@@ -297,26 +297,42 @@ fields:
 id: other parties attorney email
 generic object: ALIndividual
 question: |
-  What is ${ other_parties }'s email address?
+  What is **${ other_parties }'s** email address?
 fields:
   - Email: other_parties[i].attorney.email
     datatype: email
----
-id: parties to be served
-question: |
-  List the name and address (or email address) of each attorney or self-represented party that you will deliver copies of your Motion, memorandum, and supporting materials to.
-subquestion: |
-  If you are serving more than one attorney or party, you may list more than one.
-fields:
-  - no label: parties_to_be_served
-    input type: area 
-    rows: 6
+#---
+#id: parties to be served
+#question: |
+#  List the name and address (or email address) of each attorney or self-represented party that you will deliver copies of your Motion, memorandum, and supporting materials to.
+#subquestion: |
+#  If you are serving more than one attorney or party, you may list more than one.
+#fields:
+#  - no label: parties_to_be_served
+#    input type: area 
+#    rows: 6
 ---
 id: service date
 question: |
-  When will you deliver copies of your Motion, memorandum, and supporting materials to ${ other_parties }'s attorney(s)?
+  % if other_party_has_attorney: 
+  
+  **When** will you deliver the required copies of the motion, memorandum, and supporting materials to **${ other_parties[0].attorney }**?
+  
+  % else:
+  
+  **When** will you deliver the required copies of the motion, memorandum, and supporting materials to **${ other_parties }**?
+  
+  % endif
 subquestion: |
-  You are required to provide a copy of this motion, memorandum, and supporting materials to ${ other_parties }'s attorney(s).
+  % if other_party_has_attorney: 
+  
+  You are required to provide a copy of this motion, memorandum, and supporting materials to **${ other_parties[0].attorney }**.
+  
+  % else:
+  
+  Since **${ other_parties }'s** does not have an attorney, you are required to serve **${ other_parties }** with a copy of this motion, memorandum, and supporting materials.  
+  
+  % endif
 fields:
   - Date: service_date
     datatype: date
@@ -350,7 +366,7 @@ event: not_indigent_download
 question: |
   Review & Download
 subquestion: |
-  [:file-download: Your Motion]( ${ al_court_bundle.as_pdf(key='final').url_for() }) is ready to download. You must download it, send to the ${ courts[0] }, and pay the filing fee. 
+  **[:file-download: Your Motion]( ${ al_court_bundle.as_pdf(key='final').url_for() })** is ready to download. You must download it, send to the ${ courts[0] }, and pay the filing fee. 
   
   1. Click "View" below to open the form in a new window.
   1. Click "Download" below to save a copy to send to the ${ courts[0] }.
@@ -378,7 +394,7 @@ question: |
   % endif
 subquestion: |
   % if not defined('email_success') or not email_success:
-  [:file-download: Your Motion]( ${ al_court_bundle.as_pdf(key='final').url_for() }) is ready to send to the ${ courts[0] }. It is not delivered until you complete the delivery process.
+  **[:file-download: Your Motion]( ${ al_court_bundle.as_pdf(key='final').url_for() })** is ready to send to the ${ courts[0] }. It is not delivered until you complete the delivery process.
   
   **To deliver your Motion to the ${ courts[0] }:**
   
