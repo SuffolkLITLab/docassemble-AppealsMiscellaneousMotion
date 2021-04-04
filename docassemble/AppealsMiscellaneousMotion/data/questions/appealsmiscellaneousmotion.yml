@@ -289,7 +289,7 @@ sets:
   - other_parties[i].attorney.address.city
   - other_parties[i].attorney.address.zip
 question: |
-  What is **${ other_parties }'s** attorney's address?
+  What is **${ other_parties[0].attorney }'s** address?
 fields:
   - code: |
       other_parties[i].attorney.address_fields()
@@ -297,7 +297,7 @@ fields:
 id: other parties attorney email
 generic object: ALIndividual
 question: |
-  What is **${ other_parties }'s** email address?
+  What is **${ other_parties[0].attorney }'s** email address?
 fields:
   - Email: other_parties[i].attorney.email
     datatype: email
