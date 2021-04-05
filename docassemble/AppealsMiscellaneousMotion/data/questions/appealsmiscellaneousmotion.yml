@@ -74,9 +74,9 @@ code: |
   other_parties.gather()
   
   if other_party_has_attorney:
-    other_parties[0].attorney.there_are_any = True
-    other_parties[0].attorney.gather()
-  
+    other_parties[0].attorneys.there_are_any = True
+    other_parties[0].attorneys.gather(complete_attribute = "gathered_everthing")
+ 
   #plaintiffs
   #defendants
   #
@@ -235,7 +235,7 @@ id: method of service
 question: |
   % if other_party_has_attorney: 
   
-  **How** will you deliver the required copies of the motion, memorandum, and supporting materials to **${ other_parties[0].attorney }**?
+  **How** will you deliver the required copies of the motion, memorandum, and supporting materials to **${ other_parties[0].attorneys }**?
   
   % else:
   
@@ -245,7 +245,7 @@ question: |
 subquestion: |
   % if other_party_has_attorney: 
   
-  You are required to provide a copy of this motion, memorandum, and supporting materials to **${ other_parties[0].attorney }**.
+  You are required to provide a copy of this motion, memorandum, and supporting materials to **${ other_parties[0].attorneys }**.
   
   % else:
   
@@ -263,47 +263,54 @@ dropdown:
 ---
 objects:
   - attorneys: ALPeopleList.using(there_are_any=True)
-  - other_parties[i].attorney: PeopleList
+  - other_parties[i].attorneys: PeopleList
 ---
 id: other parties attorney trigger
 question: |
   Does **${ other_parties }** have an attorney?
 yesno: other_party_has_attorney
 ---
+generic object: ALIndividual
+code: |
+  x.name.first
+  x.address.address
+  x.email
+  x.gathered_everthing = True
+---
 id: other parties another attorney
 question: |
   Does **${ other_parties }** have another attorney?
-yesno: other_parties[i].attorney.there_is_another
+yesno: other_parties[i].attorneys.there_is_another
 ---
 id: other parties attorney name
 sets:
-  - other_parties[i].attorney.name.first
-  - other_parties[i].attorney.name.last
+  - other_parties[i].attorneys[j].name.first
+  - other_parties[i].attorneys[j].name.last
 generic object: ALIndividual
 question: |
-  What is **${ other_parties }'s** attorney's name?
+  What is **${ other_parties[i] }'s** attorney's name?
 fields:
   - code: |
-      other_parties[i].attorney.name_fields()
+      other_parties[i].attorneys[j].name_fields()
 ---
 id: other parties attorney address
 generic object: ALIndividual
 sets:
-  - other_parties[i].attorney.address.address
-  - other_parties[i].attorney.address.city
-  - other_parties[i].attorney.address.zip
+  - other_parties[i].attorneys[j].address.address
+  - other_parties[i].attorneys[j].address.city
+  - other_parties[i].attorneys[j].address.zip
 question: |
-  What is **${ other_parties[0].attorney }'s** address?
+  What is **${ other_parties[i].attorneys[j] }'s** address?
 fields:
   - code: |
-      other_parties[i].attorney.address_fields()
+      other_parties[i].attorneys[j].address_fields()
 ---
 id: other parties attorney email
 generic object: ALIndividual
 question: |
-  What is **${ other_parties[0].attorney }'s** email address?
+  What is **${ other_parties[i].attorneys[j] }'s** email address?
 fields:
-  - Email: other_parties[i].attorney.email
+  - Email: other_parties[i].attorneys[j].email
     datatype: email
 #---
 #id: parties to be served
@@ -320,7 +327,7 @@ id: service date
 question: |
   % if other_party_has_attorney: 
   
-  **When** will you deliver the required copies of the motion, memorandum, and supporting materials to **${ other_parties[0].attorney }**?
+  **When** will you deliver the required copies of the motion, memorandum, and supporting materials to **${ other_parties[0].attorneys }**?
   
   % else:
   
@@ -330,7 +337,7 @@ question: |
 subquestion: |
   % if other_party_has_attorney: 
   
-  You are required to provide a copy of this motion, memorandum, and supporting materials to **${ other_parties[0].attorney }**.
+  You are required to provide a copy of this motion, memorandum, and supporting materials to **${ other_parties[0].attorneys }**.
   
   % else:
   
