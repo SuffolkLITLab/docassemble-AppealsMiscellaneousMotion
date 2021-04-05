@@ -74,9 +74,8 @@ code: |
   other_parties.gather()
   
   if other_party_has_attorney:
-    other_parties[0].attorney.name.first
-    other_parties[0].attorney.address.address
-    other_parties[0].attorney.email
+    other_parties[0].attorney.there_are_any = True
+    other_parties[0].attorney.gather()
   
   #plaintiffs
   #defendants
@@ -264,12 +263,17 @@ dropdown:
 ---
 objects:
   - attorneys: ALPeopleList.using(there_are_any=True)
-  - other_parties[i].attorney: ALIndividual
+  - other_parties[i].attorney: PeopleList
 ---
 id: other parties attorney trigger
 question: |
   Does **${ other_parties }** have an attorney?
 yesno: other_party_has_attorney
+---
+id: other parties another attorney
+question: |
+  Does **${ other_parties }** have another attorney?
+yesno: other_parties[i].attorney.there_is_another
 ---
 id: other parties attorney name
 sets:
