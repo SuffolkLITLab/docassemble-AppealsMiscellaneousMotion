@@ -378,7 +378,7 @@ event: not_indigent_download
 question: |
   Review & Download
 subquestion: |
-  **[:file-download: Your Motion]( ${ al_court_bundle.as_pdf(key='final').url_for() })** is ready to download. You must download it, send to the ${ courts[0] }, and pay the filing fee. 
+  **You must download [:file-download: Your Motion]( ${ al_court_bundle.as_pdf(key='final').url_for() }), send it to the ${ courts[0] }, and pay the filing fee.**
   
   1. Click "View" below to open the form in a new window.
   1. Click "Download" below to save a copy to send to the ${ courts[0] }.
