@@ -61,12 +61,12 @@ id: interview order
 mandatory: True
 code: |
   appeals_basic_questions_intro_screen
-  users[0].name.first
+  users.gather()
   users[0].address.address
   users[0].mobile_number
   user_needs_interpreter
-  users.there_is_another = False
-  users.gathered = True
+  #users.there_is_another = False
+  #users.gathered = True
   user_ask_role
   other_parties.there_are_any = True
   plaintiffs.gather()
@@ -244,27 +244,15 @@ fields:
 ---
 id: method of service
 question: |
-  % if other_party_has_attorney: 
   
-  **How** will you deliver the required copies of the motion, memorandum, and supporting materials to **${ other_parties[0].attorneys }**?
+  **How** will you deliver the required copies of the motion, memorandum, and supporting materials to the other party(s) or their attorney(s)?
   
-  % else:
-  
-  **How** will you deliver the required copies of the motion, memorandum, and supporting materials to **${ other_parties }**?
-  
-  % endif
 subquestion: |
-  % if other_party_has_attorney: 
   
-  You are required to provide a copy of this motion, memorandum, and supporting materials to **${ other_parties[0].attorneys }**.
-  
-  % else:
-  
-  Since **${ other_parties }'s** does not have an attorney, you are required to serve **${ other_parties }** with a copy of this motion, memorandum, and supporting materials.  
-  
-  % endif
+  You are required to provide a copy of this motion, memorandum, and supporting materials to the other party(s) or their attorney(s).
   
   You should **not** provide a copy of your Affidavit of Indigency, if any, to anyone except the Appeals Court.  
+  
 field: method_of_service
 dropdown:
   - Efile and serve (efilema.com): efile and serve (efilema.com)
@@ -290,7 +278,7 @@ code: |
 ---
 id: other parties another attorney
 question: |
-  Does **${ other_parties }** have another attorney?
+  Does **${ other_parties[i] }** have another attorney?
 yesno: other_parties[i].attorneys.there_is_another
 ---
 id: other parties attorney name
@@ -378,7 +366,7 @@ event: not_indigent_download
 question: |
   Review & Download
 subquestion: |
-  **[:file-download: Your Motion]( ${ al_court_bundle.as_pdf(key='final').url_for() })** is ready to download. You must download it, send to the ${ courts[0] }, and pay the filing fee. 
+  **You must download [:file-download: Your Motion]( ${ al_court_bundle.as_pdf(key='final').url_for() }), send it to the ${ courts[0] }, and pay the filing fee.**
   
   1. Click "View" below to open the form in a new window.
   1. Click "Download" below to save a copy to send to the ${ courts[0] }.
