@@ -406,9 +406,9 @@ question: |
   % endif
 subquestion: |
   % if not defined('email_success') or not email_success:
-  **[:file-download: Your Motion]( ${ al_court_bundle.as_pdf(key='final').url_for() })** is ready to send to the ${ courts[0] }. It is not delivered until you complete the delivery process.
+  **Your Motion** is ready to send to the Appeals Court. It is not delivered until you complete the delivery process.
   
-  **To deliver your Motion to the ${ courts[0] }:**
+  **To deliver your Motion to the Appeals Court:**
   
   1. Click "View" below to open the form in a new window.
   1. Click "Download" below to save or print a copy for your records.
@@ -432,8 +432,6 @@ subquestion: |
   % else:
     Your email has already been delivered to ${courts[0]}
     
-  [:file-download: Your Motion](${final_form_to_file.url_for(attachment=True)})
-
   % endif
   
   ${ al_user_bundle.download_list_html() }
@@ -475,7 +473,10 @@ objects:
 ---
 objects:
   - al_user_bundle: ALDocumentBundle.using(elements=[motion_attachment, exhibits_attachment, affidavitofindigency_included], filename="Miscellaneous_Motion", title="Miscellaneous Motion")
-  - al_court_bundle: ALDocumentBundle.using(elements=[motion_attachment, exhibits_attachment, affidavitofindigency_included], filename="Miscellaneous_Motion", title="Miscellaneous Motion")
+  - al_court_bundle: ALDocumentBundle.using(elements=[motion_attachment, exhibits_attachment, affidavitofindigency_included], filename="Miscellaneous_Motion", title="Miscellaneous Motion", enabled=True)
+---
+code: |
+  al_court_bundle.enabled = True
 ---
 objects:
   - motion_attachment: ALDocument.using(title='Miscellaneous Motion', filename='Miscellaneous_Motion', has_addendum=False, enabled=True)
