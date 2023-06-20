@@ -43,7 +43,7 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
     return out
 
 setup(name='docassemble.AppealsMiscellaneousMotion',
-      version='0.0.2',
+      version='0.1.0',
       description=('A docassemble extension.'),
       long_description='# docassemble.AppealsMiscellaneousMotion\r\n\r\nA docassemble extension.\r\n\r\n## Author\r\n\r\nMia Bonardi, mbonardi@su.suffolk.edu\r\n\r\n',
       long_description_content_type='text/markdown',
@@ -53,7 +53,7 @@ setup(name='docassemble.AppealsMiscellaneousMotion',
       url='https://docassemble.org',
       packages=find_packages(),
       namespace_packages=['docassemble'],
-      install_requires=[],
+      install_requires=['docassemble.AssemblyLine>=2.23.0'],
       zip_safe=False,
       package_data=find_package_data(where='docassemble/AppealsMiscellaneousMotion/', package='docassemble.AppealsMiscellaneousMotion'),
      )
