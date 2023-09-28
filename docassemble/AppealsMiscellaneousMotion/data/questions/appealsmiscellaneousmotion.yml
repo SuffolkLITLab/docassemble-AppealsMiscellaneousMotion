@@ -2,7 +2,7 @@
 include:
   - docassemble.AssemblyLine:al_package.yml
   - docassemble.MassAccess:massaccess.yml
-  - docassemble.AffidavitofIndigencyMAVC:affidavit_body.yml
+  - docassemble.ALAffidavitOfIndigency:affidavit_body.yml
   - docassemble.MassAppealsCourt:appeals-basic-questions.yml
 ---
 reconsider: True
@@ -160,7 +160,7 @@ question: |
 fields:
   - no label: trial_court
     datatype: object
-    choices: macourts.filter_courts(["Boston Municipal Court",
+    choices: all_courts.filter_courts(["Boston Municipal Court",
       "District Court",
       "Superior Court",
       "Housing Court",
@@ -458,7 +458,7 @@ code: |
     exhibits_attachment.enabled = False
 ---
 code: |
-  affidavitofindigency_included.enabled = is_first_document and is_indigent
+  affidavitofindigency_attachment.enabled = is_first_document and is_indigent
 ---
 #TODO:
 code: |
@@ -473,8 +473,8 @@ objects:
   - motion_attachment: DADict
 ---
 objects:
-  - al_user_bundle: ALDocumentBundle.using(elements=[motion_attachment, exhibits_attachment, affidavitofindigency_included], filename="Miscellaneous_Motion", title="Miscellaneous Motion")
-  - al_court_bundle: ALDocumentBundle.using(elements=[motion_attachment, exhibits_attachment, affidavitofindigency_included], filename="Miscellaneous_Motion", title="Miscellaneous Motion", enabled=True)
+  - al_user_bundle: ALDocumentBundle.using(elements=[motion_attachment, exhibits_attachment, affidavitofindigency_attachment], filename="Miscellaneous_Motion", title="Miscellaneous Motion")
+  - al_court_bundle: ALDocumentBundle.using(elements=[motion_attachment, exhibits_attachment, affidavitofindigency_attachment], filename="Miscellaneous_Motion", title="Miscellaneous Motion", enabled=True)
 ---
 code: |
   al_court_bundle.enabled = True
@@ -482,13 +482,9 @@ code: |
 objects:
   - motion_attachment: ALDocument.using(title='Miscellaneous Motion', filename='Miscellaneous_Motion', has_addendum=False, enabled=True)
   - exhibits_attachment: ALDocument.using(title='Exhibits', filename='exhibits', has_addendum=False)
-  - affidavitofindigency_included: ALDocument.using(title='Affidavit of Indigency', filename='Affidavit_of_Indigency', has_addendum=False)
 ---
 code: |
   exhibits_attachment[i] = prepped_exhibits
----
-code: |
-  affidavitofindigency_included[i] = affidavitofindigency_attachment
 ---
 attachment:
   - name: Miscellaneous Motion

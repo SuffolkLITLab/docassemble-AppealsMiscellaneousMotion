@@ -53,7 +53,7 @@ setup(name='docassemble.AppealsMiscellaneousMotion',
       url='https://docassemble.org',
       packages=find_packages(),
       namespace_packages=['docassemble'],
-      install_requires=['docassemble.AssemblyLine>=2.23.0'],
+      install_requires=['docassemble.AssemblyLine>=2.23.0', 'docassemble.ALAffidavitOfIndigency'],
       zip_safe=False,
       package_data=find_package_data(where='docassemble/AppealsMiscellaneousMotion/', package='docassemble.AppealsMiscellaneousMotion'),
      )
