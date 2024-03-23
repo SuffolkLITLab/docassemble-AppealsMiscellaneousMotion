@@ -75,7 +75,7 @@ code: |
   
   if other_party_has_attorney:
     other_parties[0].attorneys.there_are_any = True
-    other_parties[0].attorneys.gather(complete_attribute = "gathered_everthing")
+    other_parties[0].attorneys.gather(complete_attribute = "gathered_everything")
   else:  
     other_parties[0].address.address
     
@@ -287,7 +287,7 @@ code: |
   x.name.first
   x.address.address
   x.email
-  x.gathered_everthing = True
+  x.gathered_everything = True
 ---
 id: other parties another attorney
 question: |
