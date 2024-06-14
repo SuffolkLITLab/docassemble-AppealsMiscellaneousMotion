@@ -14,7 +14,36 @@ code: |
   form_to_sign = al_court_bundle.as_pdf(key = "preview")
 ---
 metadata:
-  title: Miscellaneous Motion
+  title: |
+    Massachusetts Appeals Court Miscellaneous Motion
+  short title: |
+    Massachusetts Appeals Court Miscellaneous Motion
+  description: |
+    Use this interview if you would like to file a motion with the Appeals Court not listed elsewhere on [this page](https://www.courtformsonline.org/appeals/). For example:
+    * Motion for leave to file supplemental appendix
+    * Motion for leave to file sur-reply brief
+    * Motion to compel assembly of the record
+  can_I_use_this_form: |
+    If you need to file a motion with the Massachusetts Appeals Court and the motion you want to file is not listed on [this page](https://www.courtformsonline.org/appeals/), you can use this interview.
+  maturity: production
+  estimated_completion_minutes: 50
+  estimated_completion_delta: 10
+  languages:
+    - en
+  LIST_topics: # Preferred
+    - CO-07-02-00-00
+  tags: # Should be used if LIST_topics not populated
+    - motion,appeals
+  jurisdiction: NAM-US-US+MA
+  review_date: 2024-01-01
+  form_titles:
+    - Motion
+    - Certificate of Service
+    - Exhibits
+  fees:
+    - Filing fee: 315.00
+  update_notes: |
+    Interview drafted in 2020 with minor updates thereafter. Reviewed in 2024 and no form or law changes require updates.
 ---
 comment: |
   This section is used by AssemblyLine to control how some of the questions work.
