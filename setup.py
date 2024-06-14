@@ -43,9 +43,9 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
     return out
 
 setup(name='docassemble.AppealsMiscellaneousMotion',
-      version='0.1.0',
-      description=('A docassemble extension.'),
-      long_description='# docassemble.AppealsMiscellaneousMotion\r\n\r\nA docassemble extension.\r\n\r\n## Author\r\n\r\nMia Bonardi, mbonardi@su.suffolk.edu\r\n\r\n',
+      version='0.1.1',
+      description=('Massachusetts Appeals Court miscellaneous motion'),
+      long_description='A Docassemble interview for a Massachusetts Appeals Court miscellaneous motion.',
       long_description_content_type='text/markdown',
       author='Mia Bonardi',
       author_email='mbonardi@su.suffolk.edu',
