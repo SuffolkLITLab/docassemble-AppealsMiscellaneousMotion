@@ -30,6 +30,8 @@ metadata:
   estimated_completion_delta: 10
   languages:
     - en
+  LIST_topics: # Preferred
+    - CO-07-02-00-00
   tags: # Should be used if LIST_topics not populated
     - motion,appeals
   jurisdiction: NAM-US-US+MA
