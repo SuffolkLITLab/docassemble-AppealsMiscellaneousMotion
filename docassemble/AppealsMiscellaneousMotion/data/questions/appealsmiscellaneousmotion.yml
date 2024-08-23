@@ -19,31 +19,46 @@ metadata:
   short title: |
     Massachusetts Appeals Court Miscellaneous Motion
   description: |
-    Use this interview if you would like to file a motion with the Appeals Court not listed elsewhere on [this page](https://www.courtformsonline.org/appeals/). For example:
+    Use this form if you would like to file a motion with the Appeals Court not listed elsewhere on this page. For example:
     * Motion for leave to file supplemental appendix
     * Motion for leave to file sur-reply brief
     * Motion to compel assembly of the record
   can_I_use_this_form: |
-    If you need to file a motion with the Massachusetts Appeals Court and the motion you want to file is not listed on [this page](https://www.courtformsonline.org/appeals/), you can use this interview.
+   You can use this interview to file a motion with the Massachusetts Appeals Court.
+  before_you_start: |
+   Before you start, gather all information regarding your case, including: 
+     * The docket, or history of decisions by the judge (you can get this online)
+     * The names of the attorneys or other people who are involved in the case
+     * The names of the courts where the case is happening
+     * Document you are submitting to the court 
+     * The relief you are requesting and why. 
+     
   maturity: production
-  estimated_completion_minutes: 50
-  estimated_completion_delta: 10
+  estimated_completion_minutes: 60
+  estimated_completion_delta: 30
   languages:
     - en
-  LIST_topics: # Preferred
+  help_page_url: 
+    - https://www.masslegalhelp.org/ 
+  help_page_title: 
+    - Learn more
+  LIST_topics: 
     - CO-07-02-00-00
-  tags: # Should be used if LIST_topics not populated
+  tags: 
     - motion,appeals
   jurisdiction: NAM-US-US+MA
-  review_date: 2024-01-01
+  original_form: 
+    - https://www.mass.gov/how-to/appeal-an-agency-decision-in-superior-court
+  original_form_published_on: 
+  review_date: 
+    - August 2024
   form_titles:
-    - Motion
-    - Certificate of Service
-    - Exhibits
+    - 
+  form_numbers:
+    - 
   fees:
-    - Filing fee: 315.00
+    - Filing fee: 0.00
   update_notes: |
-    Interview drafted in 2020 with minor updates thereafter. Reviewed in 2024 and no form or law changes require updates.
 ---
 comment: |
   This section is used by AssemblyLine to control how some of the questions work.
