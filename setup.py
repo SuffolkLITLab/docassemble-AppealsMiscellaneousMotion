@@ -46,15 +46,14 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
 setup(name='docassemble.AppealsMiscellaneousMotion',
       version='0.1.1',
       description=('Massachusetts Appeals Court miscellaneous motion'),
-      long_description='# Massachusetts Appeals Court miscellaneous motion.\r\n\r\nThis is a Docassemble interview to complete a Massachusetts Appeals Court miscellaneous motion online. The live interview can be found at [https://www.courtformsonline.org/appeals/#miscmo](https://www.courtformsonline.org/appeals/#miscmo).',
+      long_description='# Massachusetts Appeals Court miscellaneous motion.\r\n\r\nThis is a Docassemble interview to complete a Massachusetts Appeals Court miscellaneous motion online. The live interview can be found at [https://courtformsonline.org/ma/forms/massachusetts-appeals-court-miscellaneous-motion](https://courtformsonline.org/ma/forms/massachusetts-appeals-court-miscellaneous-motion).',
       long_description_content_type='text/markdown',
       author='Mia Bonardi',
       author_email='mbonardi@su.suffolk.edu',
-      license='The MIT License (MIT)',
+      license='MIT',
       url='https://docassemble.org',
       packages=find_namespace_packages(),
-      install_requires=['docassemble.AssemblyLine>=3.0.1'],
+      install_requires=['docassemble.AssemblyLine @ git+https://github.com/SuffolkLITLab/docassemble-AssemblyLine.git@main'],
       zip_safe=False,
       package_data=find_package_data(where='docassemble/AppealsMiscellaneousMotion/', package='docassemble.AppealsMiscellaneousMotion'),
      )
-
