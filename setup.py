@@ -50,11 +50,10 @@ setup(name='docassemble.AppealsMiscellaneousMotion',
       long_description_content_type='text/markdown',
       author='Mia Bonardi',
       author_email='mbonardi@su.suffolk.edu',
-      license='The MIT License (MIT)',
+      license='MIT',
       url='https://docassemble.org',
       packages=find_namespace_packages(),
-      install_requires=['docassemble.AssemblyLine>=3.0.1'],
+      install_requires=['docassemble.AssemblyLine @ git+https://github.com/SuffolkLITLab/docassemble-AssemblyLine.git@main'],
       zip_safe=False,
       package_data=find_package_data(where='docassemble/AppealsMiscellaneousMotion/', package='docassemble.AppealsMiscellaneousMotion'),
      )
-
