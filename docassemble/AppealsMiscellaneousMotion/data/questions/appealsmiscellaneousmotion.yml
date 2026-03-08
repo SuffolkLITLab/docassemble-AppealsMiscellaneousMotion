@@ -14,7 +14,52 @@ code: |
   form_to_sign = al_court_bundle.as_pdf(key = "preview")
 ---
 metadata:
-  title: Miscellaneous Motion
+  title: |
+    Massachusetts Appeals Court Miscellaneous Motion
+  short title: |
+    Massachusetts Appeals Court Miscellaneous Motion
+  description: |
+    Use this interview if you would like to file a motion with the Appeals Court not listed elsewhere on [this page](https://courtformsonline.org/ma/appeals/). For example:
+    * Motion for leave to file supplemental appendix
+    * Motion for leave to file sur-reply brief
+    * Motion to compel assembly of the record
+  can_I_use_this_form: |
+    You can use this interview to file a motion with the Massachusetts Appeals Court that is not listed on [this page](https://courtformsonline.org/ma/appeals).
+  before_you_start: |
+   Before you start, gather all information regarding your case, including: 
+     * The docket, or history of decisions by the judge (you can get this online)
+     * The names of the attorneys or other people who are involved in the case
+     * The names of the courts where the case is happening
+     * Document you are submitting to the court 
+     * The relief you are requesting and why. 
+  maturity: production
+  estimated_completion_minutes: 60
+  estimated_completion_delta: 30
+  languages:
+    - en
+  help_page_url: 
+    - https://www.masslegalhelp.org/ 
+  help_page_title: 
+    - Learn more
+  LIST_topics: 
+    - CO-07-02-00-00
+  tags: 
+    - motion,appeals
+  jurisdiction: NAM-US-US+MA
+  original_form: 
+    - https://www.mass.gov/how-to/appeal-an-agency-decision-in-superior-court
+  original_form_published_on: 
+  review_date: 2025-07-30
+  form_titles:
+    - Motion
+    - Certificate of Service
+    - Exhibits
+  form_numbers:
+    - 
+  fees:
+    - Filing fee: 315.00
+  update_notes: |
+    Interview drafted in 2020 with minor updates thereafter. Reviewed in 2024 and no form or law changes require updates.
 ---
 comment: |
   This section is used by AssemblyLine to control how some of the questions work.
@@ -75,7 +120,7 @@ code: |
   
   if other_party_has_attorney:
     other_parties[0].attorneys.there_are_any = True
-    other_parties[0].attorneys.gather(complete_attribute = "gathered_everthing")
+    other_parties[0].attorneys.gather(complete_attribute = "gathered_everything")
   else:  
     other_parties[0].address.address
     
@@ -287,7 +332,7 @@ code: |
   x.name.first
   x.address.address
   x.email
-  x.gathered_everthing = True
+  x.gathered_everything = True
 ---
 id: other parties another attorney
 question: |

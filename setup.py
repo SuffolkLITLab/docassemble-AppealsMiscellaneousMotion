@@ -1,11 +1,12 @@
 import os
 import sys
-from setuptools import setup, find_packages
+from setuptools import setup, find_namespace_packages
 from fnmatch import fnmatchcase
 from distutils.util import convert_path
 
 standard_exclude = ('*.pyc', '*~', '.*', '*.bak', '*.swp*')
 standard_exclude_directories = ('.*', 'CVS', '_darcs', './build', './dist', 'EGG-INFO', '*.egg-info')
+
 def find_package_data(where='.', package='', exclude=standard_exclude, exclude_directories=standard_exclude_directories):
     out = {}
     stack = [(convert_path(where), '', package)]
@@ -43,18 +44,16 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
     return out
 
 setup(name='docassemble.AppealsMiscellaneousMotion',
-      version='0.1.0',
-      description=('A docassemble extension.'),
-      long_description='# docassemble.AppealsMiscellaneousMotion\r\n\r\nA docassemble extension.\r\n\r\n## Author\r\n\r\nMia Bonardi, mbonardi@su.suffolk.edu\r\n\r\n',
+      version='0.1.1',
+      description=('Massachusetts Appeals Court miscellaneous motion'),
+      long_description='# Massachusetts Appeals Court miscellaneous motion.\r\n\r\nThis is a Docassemble interview to complete a Massachusetts Appeals Court miscellaneous motion online. The live interview can be found at [https://courtformsonline.org/ma/forms/massachusetts-appeals-court-miscellaneous-motion](https://courtformsonline.org/ma/forms/massachusetts-appeals-court-miscellaneous-motion).',
       long_description_content_type='text/markdown',
       author='Mia Bonardi',
       author_email='mbonardi@su.suffolk.edu',
-      license='The MIT License (MIT)',
-      url='https://docassemble.org',
-      packages=find_packages(),
-      namespace_packages=['docassemble'],
-      install_requires=['docassemble.AssemblyLine>=2.23.0', 'docassemble.ALAffidavitOfIndigency'],
+      license='MIT',
+      url='https://courtformsonline.org',
+      packages=find_namespace_packages(),
+      install_requires=['docassemble.AssemblyLine', 'docassemble.ALAffidavitOfIndigency'],
       zip_safe=False,
       package_data=find_package_data(where='docassemble/AppealsMiscellaneousMotion/', package='docassemble.AppealsMiscellaneousMotion'),
      )
-
