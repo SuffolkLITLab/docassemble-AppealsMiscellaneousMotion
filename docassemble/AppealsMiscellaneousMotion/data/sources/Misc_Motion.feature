@@ -616,8 +616,6 @@ Scenario: I have children
     | courts[0].tyler_lower_court_code | None |  |
     | courts[0].tyler_prod_lower_court_code | None |  |
     | courts[0].name | Massachusetts Appeals Court (Single Justice) |  |
-    | courts[0].phone | (617) 921-4443 |  |
-    | courts[0].description | The Massachusetts Appeals Court serves the entire Commonwealth of Massachusetts. The Appeals Court reviews decisions from the 7 trial court departments as well as three State agencies: the Appellate Tax Board, the Industrial Accident Board and the Commonwealth Employment Relations Board. |  |
     | appeals_court | all_courts[92] |  |
     | appeals_court.address | all_courts[92].address |  |
     | appeals_court.address.location | all_courts[92].address.location |  |
@@ -633,8 +631,6 @@ Scenario: I have children
     | appeals_court.tyler_lower_court_code | None |  |
     | appeals_court.tyler_prod_lower_court_code | None |  |
     | appeals_court.name | Massachusetts Appeals Court (Single Justice) |  |
-    | appeals_court.phone | (617) 921-4443 |  |
-    | appeals_court.description | The Massachusetts Appeals Court serves the entire Commonwealth of Massachusetts. The Appeals Court reviews decisions from the 7 trial court departments as well as three State agencies: the Appellate Tax Board, the Industrial Accident Board and the Commonwealth Employment Relations Board. |  |
     | fee | Other cost |  |
     | set_empty_fees | True |  |
     | hh_income | None |  |
