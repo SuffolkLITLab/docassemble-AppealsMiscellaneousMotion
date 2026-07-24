@@ -429,7 +429,7 @@ subquestion: |
   1. Click "View" below to open the form in a new window.
   1. Click "Download" below to save a copy to send to the ${ courts[0] }.
   
-  For help, call the Appeals Court Clerk's Office: 617-921-4443 
+  For help, call the Appeals Court Clerk's Office: [617-725-8106](tel:+16177258106)
   
   The Appeals Court Clerk's Office is open:  
   Monday - Friday  
@@ -464,7 +464,7 @@ subquestion: |
   
   % else:
   If you do not hear from the court in 1 business day, call the   
-  Appeals Court Clerk's Office: 617-921-4443 
+  Appeals Court Clerk's Office: [617-725-8106](tel:+16177258106)
   
   The Appeals Court Clerk's Office is open:  
   Monday - Friday  
