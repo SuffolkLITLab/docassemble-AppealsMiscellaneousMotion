@@ -223,7 +223,7 @@ id: appeals court docket number
 question: |
   Is this the first document you are filing in the **Appeals Court**?
 fields:
-  - no label: is_first_document
+  - "Is this the first document you are filing in the **Appeals Court**?": is_first_document
     datatype: yesnoradio
   - What is the **Appeals Court** docket number for your case?: appeals_court_docket_number
     show if:
@@ -325,7 +325,9 @@ objects:
 id: other parties attorney trigger
 question: |
   Does **${ other_parties }** have an attorney?
-yesno: other_party_has_attorney
+fields:
+  - no label: other_party_has_attorney
+    datatype: yesnoradio
 ---
 generic object: ALIndividual
 code: |
@@ -337,7 +339,9 @@ code: |
 id: other parties another attorney
 question: |
   Does **${ other_parties }** have another attorney?
-yesno: other_parties[i].attorneys.there_is_another
+fields:
+  - no label: "other_parties[i].attorneys.there_is_another"
+    datatype: yesnoradio
 ---
 id: other parties attorney name
 sets:
@@ -511,6 +515,7 @@ code: |
 ---
 event: waiting_screen
 reload: True
+id: "i class fas fa cog fa spin i wait while we process your documents i class fas fa cog fa spin i"
 question: |
   <i class="fas fa-cog fa-spin"></i> Wait while we process your documents . . . <i class="fas fa-cog fa-spin"></i>
 ---
