@@ -53,7 +53,7 @@ setup(name='docassemble.AppealsMiscellaneousMotion',
       license='MIT',
       url='https://docassemble.org',
       packages=find_namespace_packages(),
-      install_requires=['docassemble.AssemblyLine @ git+https://github.com/SuffolkLITLab/docassemble-AssemblyLine.git@main'],
+      install_requires=['docassemble.AssemblyLine @ git+https://github.com/SuffolkLITLab/docassemble-AssemblyLine.git@main', 'docassemble.MassAppealsCourt', 'docassemble.MassAccess'],
       zip_safe=False,
       package_data=find_package_data(where='docassemble/AppealsMiscellaneousMotion/', package='docassemble.AppealsMiscellaneousMotion'),
      )

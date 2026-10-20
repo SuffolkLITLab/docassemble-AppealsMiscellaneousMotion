@@ -19,7 +19,7 @@ metadata:
   short title: |
     Massachusetts Appeals Court Miscellaneous Motion
   description: |
-    Use this interview if you would like to file a motion with the Appeals Court not listed elsewhere on [this page](https://courtformsonline.org/ma/appeals/). For example:
+    Use this interview if you would like to file a motion with the Appeals Court not listed elsewhere on [this page](https://courtformsonline.org/ma/appeals). For example:
     * Motion for leave to file supplemental appendix
     * Motion for leave to file sur-reply brief
     * Motion to compel assembly of the record
@@ -63,7 +63,6 @@ metadata:
 ---
 comment: |
   This section is used by AssemblyLine to control how some of the questions work.
-mandatory: True
 code: |
   interview_metadata # make sure we initialize the object
   if not defined("interview_metadata['Miscellaneous_Motion']"):
@@ -88,6 +87,7 @@ code: |
     'attachment block variable': 'al_court_bundle',
     'typical role': 'unknown',
   })
+  interview_metadata_filled = True
 ---
 features:
   javascript:
@@ -105,6 +105,7 @@ objects:
 id: interview order
 mandatory: True
 code: |
+  interview_metadata_filled
   appeals_basic_questions_intro_screen
   users[0].name.first
   users[0].address.address
